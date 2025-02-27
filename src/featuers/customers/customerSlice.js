@@ -1,5 +1,3 @@
-
-
 const initialStateCustomer = {
   fullName: "",
   nationalID: "",
@@ -12,7 +10,7 @@ export default function customerReducer(state = initialStateCustomer, action) {
     case "customer/createCustomer":
       return {
         ...state,
-        //* i redux  the payload is an object
+        //* in redux  the payload is an object
         fullName: action.payload.fullName,
         nationalID: action.payload.nationalID,
         createdAt: action.payload.createdAt,
@@ -20,7 +18,7 @@ export default function customerReducer(state = initialStateCustomer, action) {
     case "customer/updateName":
       return { ...state, fullName: action.payload };
     default:
-      //*in redux we return the state in default instead of throw error
+      //in redux we return the state in default instead of throw error
       return state;
   }
 }
