@@ -19,3 +19,4 @@ function BalanceDisplay({balance}) {
   
  }
 export default connect(mapStateToProps) (BalanceDisplay);
+// the connect function take a function as an argument then return a function that take our component as an argument 

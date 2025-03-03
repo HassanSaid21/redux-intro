@@ -2,12 +2,19 @@ const initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
+  isLoading: false,
 };
 
 export default function accountReducer(state = initialStateAccount, action) {
   switch (action.type) {
+    case "account/convertingCurrency":
+      return { ...state, isLoading: true };
     case "account/deposit":
-      return { ...state, balance: state.balance + action.payload };
+      return {
+        ...state,
+        balance: state.balance + action.payload,
+        isLoading: false,
+      };
     case "account/withdraw":
       return { ...state, balance: state.balance - action.payload };
     case "account/requestLoan":
@@ -32,8 +39,28 @@ export default function accountReducer(state = initialStateAccount, action) {
   }
 }
 
-export function deposit(amount) {
-  return { type: "account/deposit", payload: amount };
+export function deposit(amount, currency) {
+  if (currency === "USD") return { type: "account/deposit", payload: amount };
+
+  // when we return a function instead of an object  redux knows that this function is thunk middleware
+  //  and it will execute that function before dispatch the action to the store
+  // and then redux knows that this function is asynchronous action that we want to execute before dispatching anything
+  // to the store
+  // this function has an access to the dispatch function and the current state  by calling getStata function
+
+  return async function (dispatch, getState) {
+    dispatch({ type: "account/convertingCurrency" });
+    //API calls
+    const res = await fetch(
+      `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`
+    );
+
+    const data = await res.json();
+    const convertedData = data.rates["USD"];
+
+    // return action
+    dispatch({ type: "account/deposit", payload: convertedData });
+  };
 }
 
 export function withdraw(amount) {
