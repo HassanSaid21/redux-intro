@@ -6,7 +6,7 @@ function Customer() {
   const [fullName, setFullName] = useState("");
   const [nationalID, setNationalID] = useState("");
   const dispatch = useDispatch();
-console.log(fullName, nationalID)
+  console.log(fullName, nationalID);
   function handleClick() {
     //  to dispatch an action we use useDispatch hook from react-redux
     if (!fullName || !nationalID) return;

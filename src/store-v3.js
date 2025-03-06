@@ -1,19 +1,24 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+// import { applyMiddleware, combineReducers, createStore } from "redux";
+// import { thunk } from "redux-thunk";
+// import { composeWithDevTools } from "@redux-devtools/extension";
+// no need anymore when we use configureStore
 import accountReducer from "./featuers/accounts/accountSlice";
 import customerReducer from "./featuers/customers/customerSlice";
-import { thunk } from "redux-thunk";
-import { composeWithDevTools } from "@redux-devtools/extension";
 
-const rootReducer = combineReducers({
-  account: accountReducer,
-  customer: customerReducer,
+import { configureStore } from "@reduxjs/toolkit";
+
+// const rootReducer = combineReducers({
+//   account: accountReducer,
+//   customer: customerReducer,
+// });
+// no need
+
+export const store = configureStore({
+  reducer: {
+    account: accountReducer,
+    customer: customerReducer,
+  },
 });
-
-// this is how we tell our store that we want to use the middleware thunk in our application
-export const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
-);
 
 //* note that redux is smart enough to know which reducer  to set this action to it
 // store.dispatch(deposit(500));
