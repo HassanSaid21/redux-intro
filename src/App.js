@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function App() {
   const customer = useSelector((store) => store.customer.fullName);
-  console.log(customer)
+  console.log(customer);
   return (
     <div>
       <h1>🏦 The React-Redux Bank ⚛️</h1>
